@@ -1,0 +1,70 @@
+body{
+    background-color: #121212;
+    color: white;
+    scroll-behavior:unset;
+
+}
+
+.secondary{
+    background-color: #1e1e2b;
+}
+
+.bo-2{
+    border: 0.5px solid black;
+    color: white;
+}
+
+.t-white{
+    color: white;
+}
+
+.t-black{
+    color: black;
+}
+
+.mb-auto{
+    margin-bottom: auto;
+}
+
+.card-m{
+    display: flex;
+    flex-direction: row;
+}
+
+.card-side{
+    width: 30%;
+
+}
+
+.card-body{
+    width: 70%;
+}
+
+.card-50{
+    width: 50% ;
+}
+
+.W-100{
+    width: 100%;
+}
+
+.info{
+    color: #ce6565;
+}
+
+.bs-3{
+
+    box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.4);
+}
+
+.like-btn:hover{
+    transform: translate(-2px,-2px);
+}
+
+.card-berita{
+    transition: all 0.3s;
+}
+
+.card-berita:hover{
+    transform: translate(-5px,-5px);
+}
