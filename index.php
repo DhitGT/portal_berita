@@ -1,7 +1,8 @@
 <?php
 session_start();
 if(!isset($_SESSION['login'])){
-    header('location:login.php');
+    $_SESSION['login'] = 'guest';
+    $_SESSION['loginName'] = 'guest';
 }
 
 require_once 'koneksi.php';
@@ -48,8 +49,27 @@ function formatNumber($number) {
                         <a class="nav-link active" aria-current="page" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Log Out</a>
+                        <a class="nav-link" href="TambahBerita.php">Tambah Berita</a>
                     </li>
+                    <?php 
+                    if($_SESSION['loginName'] == 'admin'){
+                        echo ("<li class='nav-item'>
+                        <a class='nav-link' href='dashboard.php'>Dashboard</a>
+                        </li>");
+                    }
+                        if($_SESSION['loginName'] == 'guest'){
+                            echo ("<li class='nav-item'>
+                            <a class='nav-link' href='logout.php'>Login</a>
+                            </li>");
+                        }else{
+                            echo ("<li class='nav-item'>
+                            <a class='nav-link' href='logout.php'>Log Out</a>
+                            </li>");
+                        }
+                        
+
+                    ?>
+                    
                 </ul>
                 <div class="ms-auto d-flex pt-3">
                     <img class="" src="img/pp.jpeg" alt="" width="30px" height="30px">
@@ -68,8 +88,10 @@ function formatNumber($number) {
                 <div class="card-body">
                     <h4 class="card-title"><?php echo $value['Judul'] ?></h4>
                     <span><?php echo $value['Tanggal'] ?></span>
+                    <br>
+                    <span>By : <?php echo $value['Author'] ?></span>
                     <hr>
-                    <p class="card-text"><?php echo $value['Isi'] ?></p>
+                    <p class="card-text text-limit"><?php echo $value['Isi'] ?></p>
                     <form action="post">
                         <div class="wrapper d-flex align-center">
                             <a class="like-btn" href="like.php?id=<?php echo $value['Id'] ?>" name="Like">

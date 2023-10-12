@@ -5,29 +5,19 @@
     }
     require 'koneksi.php';
     $id = $_GET['Id'];
-    $sqlGet = "SELECT * FROM berita WHERE Id = $id";
+    $sqlGet = "SELECT * FROM users WHERE id = $id";
     $result = mysqli_query($conn,$sqlGet);
 
     $row = mysqli_fetch_assoc($result);
-    $judul = $row['Judul'];
-    $isi = $row['Isi'];
-    $tanggal = $row['Tanggal'];
-    $likes = $row['Likes'];
-    $gambar = $row['gambar'];
+    $token = $row['token'];
+    $nama = $row['nama'];
 
+    
     if(isset($_POST['submit'])){
-        $judulNew = $_POST['judul'];
-        $isiNew = $_POST['isiberita'];    
-        $tanggalNew = $_POST['tanggal'];    
-        $gambarNew = $_POST['gambar'];    
-        $likesNew = $_POST['likes'];    
-        if($gambarNew!= ''){
-            $sqlUpdate = "UPDATE berita SET Judul='$judulNew', Isi='$isiNew', Tanggal='$tanggalNew', Likes='$likesNew', gambar='$gambarNew' WHERE Id=$id";
-        }else{
-            $sqlUpdate = "UPDATE berita SET Judul='$judulNew', Isi='$isiNew', Tanggal='$tanggalNew', Likes='$likesNew' WHERE Id=$id";
-        }
+        $newToken = $_POST['token'];
+        $sqlUpdate = "UPDATE users SET token='$newToken' WHERE Id=$id";
         if(mysqli_query($conn,$sqlUpdate)){
-            header('location:dashboard.php');
+            header('location:viewUsers.php');
         }
     }
 
@@ -59,57 +49,24 @@
                     </tr>
                     <tr>
                         <td>
-                            JUDUL
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td >
-                            <input value="<?php echo htmlspecialchars($judul) ?>" type="text" class="form-control form-control-sm bo-2 t-black" name="judul">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="mb-auto">
-                            ISI BERITA
+                            NAMA
                         </td>
                         <td>
                             :
                         </td>
                         <td>
-                            <textarea name="isiberita" id="" cols="30" rows="3" class="form-control form-control-sm bo-2 t-black"><?php echo htmlspecialchars($isi) ?></textarea>
+                            <input value="<?php echo htmlspecialchars($nama) ?>" type="text" class="form-control form-control-sm bo-2 t-black" name="nama" id="nama">
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            TANGGAL PUBLIKASI
+                            TOKEN
                         </td>
                         <td>
                             :
                         </td>
                         <td>
-                            <input value="<?php echo htmlspecialchars($tanggal) ?>" type="date" class="form-control form-control-sm bo-2 t-black" name="tanggal">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            GAMBAR
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input value="<?php echo htmlspecialchars($gambar) ?>" type="file" class="form-control form-control-sm bo-2 t-black" name="gambar" id="gambar">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            LIKES
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input value="<?php echo htmlspecialchars($likes) ?>" type="text" class="form-control form-control-sm bo-2 t-black" name="likes" id="likes">
+                            <input value="<?php echo htmlspecialchars($token) ?>" type="text" class="form-control form-control-sm bo-2 t-black" name="token" id="token">
                         </td>
                     </tr>
                     <tr>

@@ -1,26 +1,35 @@
 <?php
 session_start();
-if(!isset($_SESSION['login']) || $_SESSION['login'] != 'admin'){
+if(!isset($_SESSION['login']) ||     $_SESSION['loginName'] == 'guest'){
     header('location:logout.php');
 }
 require_once 'koneksi.php';
+$Author = $_SESSION['loginName'];
+$info = '';
+$sqlGetToken = "SELECT * FROM users WHERE nama = '$Author'";
+$result = mysqli_fetch_assoc(mysqli_query($conn,$sqlGetToken));
 if(isset($_POST['submit'])){
-    $Judul = $_POST['judul'];
-    $Isi = $_POST['isiberita'];
-    $Tanggal = $_POST['tanggal'];
-    
-    $Gambar = $_FILES["gambar"]["name"];
-    $targetDir = "img/";
-    $targetFile = $targetDir . basename($_FILES["gambar"]["name"]);
-
-        if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $targetFile)) {
-            echo "The file ". basename( $_FILES["gambar"]["name"]). " has been uploaded.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-        $query = "INSERT INTO berita VALUES ('','$Judul','$Isi','$Tanggal','$Gambar','0')";
-        if(mysqli_query($conn,$query)){
-            header("location:dashboard.php");
+    if($result['token'] != 0){
+            $Judul = $_POST['judul'];
+            $Isi = $_POST['isiberita'];
+            $Tanggal = $_POST['tanggal'];
+            $Gambar = $_FILES["gambar"]["name"];
+            $targetDir = "img/";
+            $nowToken = $result['token'] -1;
+            $targetFile = $targetDir . basename($_FILES["gambar"]["name"]);
+            $sqlSetToken = "UPDATE `users` SET `token` = $nowToken WHERE `users`.`nama` = '$Author'";
+            mysqli_query($conn,$sqlSetToken);
+            if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $targetFile)) {
+                echo "The file ". basename( $_FILES["gambar"]["name"]). " has been uploaded.";
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+            $query = "INSERT INTO berita VALUES ('','$Judul','$Author','$Isi','$Tanggal','$Gambar','0')";
+            if(mysqli_query($conn,$query)){
+                header("location:index.php");
+            }
+        }else{
+            $info = "Token Kamu Habis. Hubungi admin untuk tambah token";
         }
     }
 function formatNumber($number) {
@@ -54,6 +63,7 @@ function formatNumber($number) {
     <!-- navbar -->
     <div class="container pt-4">
         <h1 align="center">Tambah Berita</h1>
+        <p>Token : <?php echo isset($result['token']) ? $result['token'] : ''; ?></p>
         <div class="card p-3 m-4 secondary">
             <form action="" method="post" enctype="multipart/form-data">
                 <table class="t-white">
@@ -74,17 +84,6 @@ function formatNumber($number) {
                         </td>
                     </tr>
                     <tr>
-                        <td class="mb-auto">
-                            ISI BERITA
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <textarea name="isiberita" id="" cols="30" rows="3" class="form-control form-control-sm bo-2 t-black"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
                         <td>
                             TANGGAL PUBLIKASI
                         </td>
@@ -93,6 +92,28 @@ function formatNumber($number) {
                         </td>
                         <td>
                             <input type="date" class="form-control form-control-sm bo-2 t-black" name="tanggal">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            AUTHOR
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <input disabled type="text" class="form-control form-control-sm bo-2 t-black" name="author" value="<?php echo $_SESSION['loginName']?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mb-auto">
+                            ISI BERITA
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <textarea name="isiberita" id="" cols="30" rows="3" class="form-control form-control-sm bo-2 t-black"></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -107,8 +128,12 @@ function formatNumber($number) {
                         </td>
                     </tr>
                     <tr>
+                        <td><span class="info-name info"><?php echo isset($info) ? $info : ''; ?></span></td>
+                    </tr>
+                    <tr>
+
                         <td>
-                            <button name="submit" class="btn btn-outline-success mt-5">TAMBAH BERITA</button>
+                            <button name="submit" class="btn btn-outline-success mt-5">TAMBAH BERITA (-1 Token)</button>
                         </td>
                     </tr>
                 </table>

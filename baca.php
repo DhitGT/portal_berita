@@ -31,7 +31,7 @@ $value = mysqli_fetch_assoc($result);
 </head>
 
 <body>
-    <div class="card text-left p-2 m-3 card-m ">
+    <div class="card text-left p-2 m-3 card-m card-berita">
         <div class="card-side">
             <img class="card-img-top bo-2" src="img/<?php echo ($value['gambar']); ?>" alt="Image" height="300px">
         </div>
@@ -48,7 +48,7 @@ $value = mysqli_fetch_assoc($result);
             </div>
             <div class="wrapper d-flex">
                 <div class="action-btn me-3">
-                    <a href="index.php" class="btn bs-3 btn-info">Back</a>
+                    <a href="index.php#<?php echo $value['Id'] ?>" class="btn bs-3 btn-info">Back</a>
                 </div>
             </div>
         </div>

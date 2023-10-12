@@ -8,6 +8,18 @@ require_once 'koneksi.php';
 $sql = 'SELECT * FROM berita';
 $result = mysqli_query($conn, $sql);
 
+function formatNumber($number) {
+    // Convert the number to a string and reverse it
+    $reversedNumber = strrev((string)$number);
+
+    // Use chunk_split to add a dot every three characters
+    $formattedNumber = chunk_split($reversedNumber, 3, '.');
+
+    // Remove any trailing dot and reverse the string back
+    $result = strrev(rtrim($formattedNumber, '.'));
+
+    return $result;
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,12 +47,12 @@ $result = mysqli_query($conn, $sql);
                     <h4 class="card-title"><?php echo $value['Judul'] ?></h4>
                     <span><?php echo $value['Tanggal'] ?></span>
                     <hr>
-                    <p class="card-text"><?php echo $value['Isi'] ?></p>
+                    <p class="card-text text-limit"><?php echo $value['Isi'] ?></p>
                     <div class="wrapper d-flex align-center">
                             <a class="like-btn" href="like.php?id=<?php echo $value['Id'] ?>" name="Like">
                                 <img src="img/like.jpeg" alt="" width="60px">
                             </a>
-                            <p class="mt-3"><?php echo $value['Likes'] ?> Likes</p>
+                            <p class="mt-3"><?php echo FormatNumber($value['Likes'] )  ?> Likes</p>
                         </div>
                     <div class="wrapper d-flex">
                         <div class="action-btn me-3">

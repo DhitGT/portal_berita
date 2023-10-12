@@ -13,6 +13,9 @@
                         <a class="nav-link" href="TambahBerita.php">Tambah Berita</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="viewUsers.php">View Users</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="logout.php">Log Out</a>
                     </li>
                 </ul>

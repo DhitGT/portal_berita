@@ -68,3 +68,46 @@ body{
 .card-berita:hover{
     transform: translate(-5px,-5px);
 }
+
+.text-limit{
+    max-height: 13em;
+    text-overflow:ellipsis;
+    overflow-y: hidden;
+}
+
+@media only screen and (max-width: 600px){
+    .card-50{
+        width: 100%;
+    }
+
+    .card-berita{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-side{
+        width: 100%;
+    }
+
+    .card-body{
+        width: 100%;
+    }
+
+    .card-img-top{
+        width: 100%;
+    }
+
+    .wrapper-view-user{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .wrapper-view-user .card-berita{
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    .body-view-user{
+        width: 100%;
+    }
+}
